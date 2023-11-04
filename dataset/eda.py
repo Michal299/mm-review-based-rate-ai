@@ -1,5 +1,8 @@
+import string
+
 import pandas as pd
 from matplotlib import pyplot as plt
+from collections import Counter
 
 
 def plot_bars(data, column):
@@ -14,6 +17,7 @@ def plot_bars(data, column):
     plt.xticks(column_distribution['index'])
     plt.xlabel(column)
     plt.ylabel("frequency")
+    plt.title("Distribution of " + column)
 
     plt.show()
 
@@ -25,8 +29,17 @@ def plot_hist(data, column):
     ax.set_xticks(bins_as_ints)
     plt.xlabel(column)
     plt.ylabel("frequency")
+    plt.title("Distribution of " + column)
 
     plt.show()
+
+
+def findMostFrequentWords(comments, k):
+    text = comments.str.cat(sep=' ')
+    text = text.translate(str.maketrans('', '', string.punctuation))
+    listOfWords = text.split()
+    counter = Counter(listOfWords)
+    return counter.most_common(k)
 
 
 def to_len(comment):
@@ -47,3 +60,6 @@ if __name__ == "__main__":
 
     plot_hist(films, 'user_comment_length')
     plot_hist(tv_series, 'user_comment_length')
+
+    print(findMostFrequentWords(films['user_comment'], 20))
+    print(findMostFrequentWords(tv_series['user_comment'], 20))
