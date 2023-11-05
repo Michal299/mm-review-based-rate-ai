@@ -1,6 +1,7 @@
 import string
 
 import pandas as pd
+import seaborn as sns
 from matplotlib import pyplot as plt
 from collections import Counter
 
@@ -64,3 +65,12 @@ if __name__ == "__main__":
 
     print(findMostFrequentWords(films['user_comment'], 25))
     print(findMostFrequentWords(tv_series['user_comment'], 25))
+
+    numerical_attributes = ['user_rate', 'movie_rating', 'movie_rating_count']
+    pd.plotting.scatter_matrix(films[numerical_attributes], figsize=(16, 8))
+    plt.show()
+
+    f, ax = plt.subplots(figsize=(16, 8))
+    sns.heatmap(films.corr(), annot=True, linewidths=.1, fmt='.2f', ax=ax)
+    plt.title('correlation matrix', fontweight="bold")
+    plt.show()
