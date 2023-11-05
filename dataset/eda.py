@@ -38,7 +38,8 @@ def findMostFrequentWords(comments, k):
     text = comments.str.cat(sep=' ')
     text = text.translate(str.maketrans('', '', string.punctuation))
     listOfWords = text.split()
-    counter = Counter(listOfWords)
+    listOfWordsWithoutConjunctions = [w.lower() for w in listOfWords if len(w) > 5]
+    counter = Counter(listOfWordsWithoutConjunctions)
     return counter.most_common(k)
 
 
@@ -49,8 +50,8 @@ def to_len(comment):
 
 
 if __name__ == "__main__":
-    films = pd.read_csv('dataset/dataset.csv', sep='$')
-    tv_series = pd.read_csv('dataset/dataset_tv_series.csv', sep='$')
+    films = pd.read_csv('dataset.csv', sep='$')
+    tv_series = pd.read_csv('dataset_tv_series.csv', sep='$')
 
     plot_bars(films, 'user_rate')
     plot_bars(tv_series, 'user_rate')
@@ -61,5 +62,5 @@ if __name__ == "__main__":
     plot_hist(films, 'user_comment_length')
     plot_hist(tv_series, 'user_comment_length')
 
-    print(findMostFrequentWords(films['user_comment'], 20))
-    print(findMostFrequentWords(tv_series['user_comment'], 20))
+    print(findMostFrequentWords(films['user_comment'], 25))
+    print(findMostFrequentWords(tv_series['user_comment'], 25))
