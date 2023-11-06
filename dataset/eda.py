@@ -51,26 +51,21 @@ def to_len(comment):
 
 
 if __name__ == "__main__":
-    films = pd.read_csv('dataset.csv', sep='$')
-    tv_series = pd.read_csv('dataset_tv_series.csv', sep='$')
+    dataset = pd.read_csv('dataset.csv', sep='$')
 
-    plot_bars(films, 'user_rate')
-    plot_bars(tv_series, 'user_rate')
+    plot_bars(dataset, 'user_rate')
 
-    films['user_comment_length'] = films['user_comment'].map(to_len)
-    tv_series['user_comment_length'] = tv_series['user_comment'].map(to_len)
+    dataset['user_comment_length'] = dataset['user_comment'].map(to_len)
 
-    plot_hist(films, 'user_comment_length')
-    plot_hist(tv_series, 'user_comment_length')
+    plot_hist(dataset, 'user_comment_length')
 
-    print(findMostFrequentWords(films['user_comment'], 25))
-    print(findMostFrequentWords(tv_series['user_comment'], 25))
+    print(findMostFrequentWords(dataset['user_comment'], 25))
 
-    numerical_attributes = ['user_rate', 'movie_rating', 'movie_rating_count']
-    pd.plotting.scatter_matrix(films[numerical_attributes], figsize=(16, 8))
+    numerical_attributes = ['user_rate', 'show_rating', 'show_rating_count']
+    pd.plotting.scatter_matrix(dataset[numerical_attributes], figsize=(16, 8))
     plt.show()
 
     f, ax = plt.subplots(figsize=(16, 8))
-    sns.heatmap(films.corr(), annot=True, linewidths=.1, fmt='.2f', ax=ax)
+    sns.heatmap(dataset.corr(), annot=True, linewidths=.1, fmt='.2f', ax=ax)
     plt.title('correlation matrix', fontweight="bold")
     plt.show()
