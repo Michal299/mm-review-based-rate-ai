@@ -8,14 +8,13 @@ from collections import Counter
 
 def plot_bars(data, column):
     column_distribution = pd.DataFrame(data[column].value_counts()).reset_index()
-
     plt.figure(figsize=(10, 5))
-    bars = plt.bar(column_distribution['index'], column_distribution[column])
+    bars = plt.bar(column_distribution[column], column_distribution['count'])
 
     for bar in bars:
         plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height(), bar.get_height(), va='bottom', ha='center')
 
-    plt.xticks(column_distribution['index'])
+    plt.xticks(column_distribution.index)
     plt.xlabel(column)
     plt.ylabel("frequency")
     plt.title("Distribution of " + column)
@@ -51,7 +50,7 @@ def to_len(comment):
 
 
 if __name__ == "__main__":
-    dataset = pd.read_csv('dataset.csv', sep='$')
+    dataset = pd.read_csv('dataset/dataset.csv', sep='$', encoding='utf-8')
 
     plot_bars(dataset, 'user_rate')
 
@@ -66,6 +65,6 @@ if __name__ == "__main__":
     plt.show()
 
     f, ax = plt.subplots(figsize=(16, 8))
-    sns.heatmap(dataset.corr(), annot=True, linewidths=.1, fmt='.2f', ax=ax)
+    sns.heatmap(dataset.corr(numeric_only=True), annot=True, linewidths=.1, fmt='.2f', ax=ax)
     plt.title('correlation matrix', fontweight="bold")
     plt.show()
